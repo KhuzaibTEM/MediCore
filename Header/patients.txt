@@ -1,0 +1,2 @@
+patient_id,name,age,gender,contact,password,balance
+1,Ahmed Ali,28,M,03001234567,pass123,5000

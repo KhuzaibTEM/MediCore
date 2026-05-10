@@ -1,0 +1,2 @@
+doctor_id,name,specialization,contact,password,fee
+1,Dr. Sara Khan,Cardiology,03111234567,doc456,1500
