@@ -63,6 +63,6 @@ All application data is persisted as plain text files in the project folder (one
 
 <img width="910" height="660" alt="Screenshot 2026-05-11 002059" src="https://github.com/user-attachments/assets/34a01afd-61ba-4197-830a-cee317dddbbd" />
 
-## - - -
+##
 
 <img width="895" height="617" alt="Screenshot 2026-05-11 021720" src="https://github.com/user-attachments/assets/eb0ed244-5e84-43a3-ac6b-87a5851ca64f" />
