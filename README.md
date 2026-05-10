@@ -1,3 +1,4 @@
+<img width="910" height="660" alt="Screenshot 2026-05-11 002059" src="https://github.com/user-attachments/assets/34a01afd-61ba-4197-830a-cee317dddbbd" />
 # MediCore
 
 ## Overview
