@@ -1,14 +1,14 @@
-#include "Header/admin.h"
-#include "Header/Doctor.h"
-#include "Header/Patient.h"
-#include "Header/Appointment.h"
-#include "Header/Bill.h"
-#include "Header/Prescription.h"
-#include "Header/Storage.h"
-#include "Header/FileHandler.h"
-#include "Header/Validator.h"
-#include "Header/Exceptions.h"
-#include "Header/constants.h"
+#include "admin.h"
+#include "Doctor.h"
+#include "Patient.h"
+#include "Appointment.h"
+#include "Bill.h"
+#include "Prescription.h"
+#include "Storage.h"
+#include "FileHandler.h"
+#include "Validator.h"
+#include "Exceptions.h"
+#include "constants.h"
 
 static bool strEq(const char* a, const char* b) {
     int i = 0;
@@ -161,8 +161,12 @@ void Admin::addDoctor() {
     cout << "Enter doctor name (max 50 chars): ";
     cin.getline(name, 51);
 
+    cout << endl;
+
     cout << "Enter specialization (max 50 chars): ";
     cin.getline(specialization, 51);
+
+    cout << endl;
 
     cout << "Enter contact (11 digits, all numeric): ";
     cin >> contactStr;
@@ -171,12 +175,16 @@ void Admin::addDoctor() {
         return;
     }
 
+    cout << endl;
+
     cout << "Enter password (min 6 chars): ";
     cin >> password;
     if (!Validator::validatePassword(password)) {
         cout << "Invalid password. Must be at least 6 characters." << endl;
         return;
     }
+
+    cout << endl;
 
     cout << "Enter consultation fee (PKR): ";
     cin >> fee;
@@ -185,8 +193,12 @@ void Admin::addDoctor() {
         return;
     }
 
+    cout << endl;
+
     int contactDigits[11];
     for (int i = 0; i < 11; i++) contactDigits[i] = contactStr[i] - '0';
+
+    cout << endl;
 
     int newID = nextDoctorID(*docStorage);
     Doctor newDoctor(newID, name, password, specialization, contactDigits, fee);
@@ -243,6 +255,7 @@ void Admin::addPatient() {
 
     cout << "Enter patient name (max 50 chars): ";
     cin.getline(name, 51);
+    cout << endl;
 
     cout << "Enter age: ";
     cin >> age;
@@ -250,6 +263,7 @@ void Admin::addPatient() {
         cout << "Invalid age. Must be between 1 and 120." << endl;
         return;
     }
+    cout << endl;
 
     cout << "Enter gender (M/F): ";
     cin >> gender;
@@ -259,6 +273,7 @@ void Admin::addPatient() {
         cout << "Invalid gender. Enter M or F." << endl;
         return;
     }
+    cout << endl;
 
     cout << "Enter contact (11 digits): ";
     cin >> contactStr;
@@ -266,6 +281,7 @@ void Admin::addPatient() {
         cout << "Invalid contact. Must be exactly 11 numeric digits." << endl;
         return;
     }
+    cout << endl;
 
     cout << "Enter password (min 6 chars): ";
     cin >> password;
@@ -273,6 +289,7 @@ void Admin::addPatient() {
         cout << "Invalid password. Must be at least 6 characters." << endl;
         return;
     }
+    cout << endl;
 
     cout << "Enter initial balance (PKR): ";
     cin >> balance;
@@ -280,6 +297,7 @@ void Admin::addPatient() {
         cout << "Balance must be a positive number." << endl;
         return;
     }
+    cout << endl;
 
     int contactDigits[11];
     for (int i = 0; i < 11; i++) contactDigits[i] = contactStr[i] - '0';
@@ -326,6 +344,7 @@ void Admin::removePatient() {
         cout << "Cannot remove patient with unpaid bills." << endl;
         return;
     }
+    cout << endl;
 
     fileHandler::deletePatientByID(
         patientID, *patStorage, *apptStorage, *billStorage, *prescStorage
