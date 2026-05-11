@@ -1,11 +1,11 @@
-#include "Header/Doctor.h"
-#include "Header/Appointment.h"
-#include "Header/Patient.h"
-#include "Header/Prescription.h"
-#include "Header/Bill.h"
-#include "Header/Storage.h"
-#include "Header/FileHandler.h"
-#include "Header/constants.h"
+#include "Doctor.h"
+#include "Appointment.h"
+#include "Patient.h"
+#include "Prescription.h"
+#include "Bill.h"
+#include "Storage.h"
+#include "FileHandler.h"
+#include "constants.h"
 
 static bool strEq(const char* a, const char* b) {
     int i = 0;
