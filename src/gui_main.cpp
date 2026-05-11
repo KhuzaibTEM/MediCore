@@ -205,74 +205,76 @@ static void drawInputBox(sf::RenderWindow& window, const sf::FloatRect& rect,
     window.draw(text);
 }
 
-struct Terminal {
-    static const int CAP = 200;
-    char lines[CAP][300];
-    int  lineCount    = 0;
-    int  scrollOffset = 0;
+class Terminal {
+    public:
+        static const int CAP = 200;
+        char lines[CAP][300];
+        int  lineCount    = 0;
+        int  scrollOffset = 0;
 
-    void clear() {
-        lineCount = 0;
-        scrollOffset = 0;
-        memset(lines, 0, sizeof(lines));
-    }
-
-    void push(const char* str) {
-        if (lineCount >= CAP) {
-            memmove(lines[0], lines[1], (CAP - 1) * 300);
-            lineCount = CAP - 1;
+        void clear() {
+            lineCount = 0;
+            scrollOffset = 0;
+            memset(lines, 0, sizeof(lines));
         }
-        strncpy(lines[lineCount++], str, 299);
-        int visibleLines = 22;
-        scrollOffset = (lineCount > visibleLines) ? lineCount - visibleLines : 0;
-    }
 
-    void pushStr(const string& str) {
-        int lineStart = 0;
-        for (int i = 0; i <= (int)str.size(); i++) {
-            if (str[i] == '\n' || str[i] == '\0') {
-                char buf[300] = {};
-                int lineLen = i - lineStart;
-                if (lineLen > 299) lineLen = 299;
-                strncpy(buf, str.c_str() + lineStart, lineLen);
-                if (buf[0] || lineLen == 0) push(buf);
-                lineStart = i + 1;
+        void push(const char* str) {
+            if (lineCount >= CAP) {
+                memmove(lines[0], lines[1], (CAP - 1) * 300);
+                lineCount = CAP - 1;
+            }
+            strncpy(lines[lineCount++], str, 299);
+            int visibleLines = 22;
+            scrollOffset = (lineCount > visibleLines) ? lineCount - visibleLines : 0;
+        }
+
+        void pushStr(const string& str) {
+            int lineStart = 0;
+            for (int i = 0; i <= (int)str.size(); i++) {
+                if (str[i] == '\n' || str[i] == '\0') {
+                    char buf[300] = {};
+                    int lineLen = i - lineStart;
+                    if (lineLen > 299) lineLen = 299;
+                    strncpy(buf, str.c_str() + lineStart, lineLen);
+                    if (buf[0] || lineLen == 0) push(buf);
+                    lineStart = i + 1;
+                }
             }
         }
-    }
 
-    void scrollUp(int delta = 3) {
-        scrollOffset = (scrollOffset > delta) ? scrollOffset - delta : 0;
-    }
+        void scrollUp(int delta = 3) {
+            scrollOffset = (scrollOffset > delta) ? scrollOffset - delta : 0;
+        }
 
-    void scrollDown(int delta = 3) {
-        int visibleLines = 22;
-        scrollOffset = std::min(std::max(0, lineCount - visibleLines), scrollOffset + delta);
-    }
+        void scrollDown(int delta = 3) {
+            int visibleLines = 22;
+            scrollOffset = std::min(std::max(0, lineCount - visibleLines), scrollOffset + delta);
+        }
 };
 
-struct AppState {
-    Screen  screen  = Screen::LAUNCHER;
-    Feature feature = Feature::NONE;
-    int     role    = 0;   // 1=patient 2=doctor 3=admin
+class AppState {
+    public:
+        Screen  screen  = Screen::LAUNCHER;
+        Feature feature = Feature::NONE;
+        int     role    = 0;   // 1=patient 2=doctor 3=admin
 
-    Patient* pat = nullptr;
-    Doctor*  doc = nullptr;
-    Admin*   adm = nullptr;
+        Patient* pat = nullptr;
+        Doctor*  doc = nullptr;
+        Admin*   adm = nullptr;
 
-    string loginId;
-    string loginPassword;
-    bool   idFieldFocused = true;
-    string loginError;
+        string loginId;
+        string loginPassword;
+        bool   idFieldFocused = true;
+        string loginError;
 
-    Terminal terminal;
-    string   inputText;
-    bool     inputIsPassword = false;
-    string   prompt;
+        Terminal terminal;
+        string   inputText;
+        bool     inputIsPassword = false;
+        string   prompt;
 
-    string wizardValues[8];
-    int    wizardStep       = 0;
-    int    selectedDoctorId = 0;
+        string wizardValues[8];
+        int    wizardStep       = 0;
+        int    selectedDoctorId = 0;
 };
 
 static void logSecurityEvent(const char* role, int id, bool success) {
@@ -284,7 +286,7 @@ static void logSecurityEvent(const char* role, int id, bool success) {
 }
 
 static void attemptLogin(AppState& state) {
-    int enteredId    = atoi(state.loginId.c_str());
+    int enteredId = atoi(state.loginId.c_str());
     string enteredPw = trimStr(state.loginPassword);
 
     if (state.role == 1) {
@@ -295,7 +297,7 @@ static void attemptLogin(AppState& state) {
             return;
         }
         logSecurityEvent("Patient", enteredId, true);
-        state.pat    = patient;
+        state.pat = patient;
         state.screen = Screen::ROLE;
         state.loginError = "";
 
@@ -330,7 +332,7 @@ static void attemptLogin(AppState& state) {
 static void launchFeature(AppState& state, Feature feature);
 
 static void setTerminalPrompt(AppState& state, const char* promptText, bool isPassword = false) {
-    state.prompt         = promptText;
+    state.prompt = promptText;
     state.inputText.clear();
     state.inputIsPassword = isPassword;
 }
@@ -966,7 +968,12 @@ static void launchFeature(AppState& state, Feature feature) {
     }
 }
 
-struct MenuItem { const char* label; sf::Color color; Feature feature; };
+class MenuItem { 
+    public:
+        const char* label; 
+        sf::Color color; 
+        Feature feature; 
+};
 
 static const MenuItem PAT_MENU[] = {
     {"1. Book Appointment",      C_BLUE,               Feature::P_BOOK_SPEC},
@@ -1144,7 +1151,12 @@ static void drawLauncher(sf::RenderWindow& window, float mouseX, float mouseY) {
     const float startX = (WIN_W - totalButtonWidth) / 2.f;
     const float startY = 130.f;
 
-    struct { const char* label; sf::Color color; } roleButtons[4] = {
+    class { 
+        public:
+            const char* label; 
+            sf::Color color; 
+    } 
+    roleButtons[4] = {
         {"Patient", C_BLUE}, {"Doctor", C_TEAL},
         {"Admin", {100, 60, 200, 255}}, {"Exit", C_RED}
     };
@@ -1240,15 +1252,10 @@ static void drawLogin(sf::RenderWindow& window, const AppState& state,
 
 static bool loadFont() {
     const char* paths[] = {
-        "Fonts/data-latin.ttf",        "Fonts\\data-latin.ttf",
-        "Fonts/ArcadeClassic.ttf",     "Fonts\\ArcadeClassic.ttf",
         "C:/Users/rayya/Downloads/25L_0878_Proejct Hospital/Fonts/data-latin.ttf",
-        "C:/Users/rayya/Downloads/25L_0878_Proejct Hospital/Fonts/ArcadeClassic.ttf",
-        "C:/Windows/Fonts/arial.ttf",
-        "C:/Windows/Fonts/segoeui.ttf",
-        nullptr
+        "Fonts/data-latin.ttf"
     };
-    for (int i = 0; paths[i]; i++) {
+    for (int i = 0; i < 2; i++) {
         if (gFont.loadFromFile(paths[i])) return true;
     }
     return false;
@@ -1269,32 +1276,37 @@ int main() {
             char line[200];
             adminFile.getline(line, 200);  // skip header
             while (adminFile.getline(line, 200)) {
-                char* token = strtok(line, ",");
+ 
+                // ID
+                int pos = 0;
+                while (line[pos] != ',' && line[pos] != '\0') pos++;
 
-                if (!token) continue;
+                if (line[pos] == '\0') continue;
 
-                int adminId = atoi(token);
+                line[pos] = '\0';
 
-                token = strtok(NULL, ",");
+                int adminId = atoi(line);
+ 
+                // Name
+                int nameStart = pos + 1;
+                int nameEnd   = nameStart;
+                while (line[nameEnd] != ',' && line[nameEnd] != '\0') nameEnd++;
+                if (line[nameEnd] == '\0') continue;
+                line[nameEnd] = '\0';
+ 
+                int nameLen = 0;
+                while (line[nameStart + nameLen] != '\0') nameLen++;
 
-                if (!token) continue;
-
-                int nameLen = (int)strlen(token);
                 char* adminName = new char[nameLen + 1];
-
-                memcpy(adminName, token, nameLen + 1);
-
-                token = strtok(NULL, ",");
-                
-                if (!token) { 
-                    delete[] adminName; 
-                    continue; 
-                }
-                int passLen = (int)strlen(token);
+                for (int k = 0; k <= nameLen; k++) adminName[k] = line[nameStart + k];
+ 
+                // Password:
+                int passStart = nameEnd + 1;
+                int passLen   = 0;
+                while (line[passStart + passLen] != '\0') passLen++;
 
                 char* adminPassword = new char[passLen + 1];
-                
-                memcpy(adminPassword, token, passLen + 1);
+                for (int k = 0; k <= passLen; k++) adminPassword[k] = line[passStart + k];
 
                 Admin adminUser(adminId, adminName, adminPassword);
 
