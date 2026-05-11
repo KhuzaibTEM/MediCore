@@ -1,16 +1,16 @@
 // MediCore Hospital Management System
 
-#include "Header/constants.h"
-#include "Header/Storage.h"
-#include "Header/Patient.h"
-#include "Header/Doctor.h"
-#include "Header/admin.h"
-#include "Header/Appointment.h"
-#include "Header/Bill.h"
-#include "Header/Prescription.h"
-#include "Header/FileHandler.h"
-#include "Header/Validator.h"
-#include "Header/Exceptions.h"
+#include "constants.h"
+#include "Storage.h"
+#include "Patient.h"
+#include "Doctor.h"
+#include "admin.h"
+#include "Appointment.h"
+#include "Bill.h"
+#include "Prescription.h"
+#include "FileHandler.h"
+#include "Validator.h"
+#include "Exceptions.h"
 
 // Reads an integer from cin and loops until it falls within [min, max].
 static int readIntInRange(int min, int max) {
